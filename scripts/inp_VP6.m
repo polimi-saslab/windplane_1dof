@@ -1,16 +1,16 @@
-function par = inp_VP10(par)
+function par = inp_VP6(par)
 
 %% atmospheric values
-vw_range = (4:1:8)';   % [m/s] wind speed range
-h_ref    = 100;         % [m]   reference altitude (operating height of VP10)
-par.atm  = wind_resource('Linosa', vw_range, h_ref);
+vw_range = (3:0.5:20)';  % [m/s] wind speed range
+h_ref    = 100;            % [m]   reference altitude (operating height of VP6)
+par.atm  = wind_resource('ustica', vw_range, h_ref);
 par.N_vw = par.atm.N_vw;
  
 %% caractheristics windplane
-par.b = 10;      % [m] wing span
+par.b = 6;      % [m] wing span
 par.AR = 5;      % [-] aspect ratio
 par.A = par.b^2/par.AR; % [m^2] wing area
-par.m = 200; % [kg]
+par.m = 25; % [kg]
 
 %% Aerodynamic caractheristics
 airf = load('airfoil_NACA4421_polars'); % naca4421
@@ -31,9 +31,9 @@ par.lut_Ups = casadi.interpolant('LUT','bspline',{par.lut_Ups_double.lambda0_m(1
 
 %% Tether
 par.Cd_te = 1;   % [-] tether drag coefficient
-par.L_te = 150;  % [m] tether length
-par.D_te = 8 * 1e-3; % [m] external tether diameter
-par.D_te_el = 2 * 1e-3; % [m] diamenter of the electrical component 
+par.L_te = 100;  % [m] tether length
+par.D_te = 10 * 1e-3; % [m] external tether diameter
+par.D_te_el = 0. * 1e-3; % [m] diamenter of the electrical component 
 par.A_te = pi*par.D_te^2/4; % [m^2] total sectional area
 par.A_te_el = pi*par.D_te_el^2/4; % [m^2]  sectional area of the electrical component 
 par.A_te_str = par.A_te-par.A_te_el; % [m^2]  sectional area of the structural component
@@ -41,7 +41,7 @@ par.A_te_str = par.A_te-par.A_te_el; % [m^2]  sectional area of the structural c
 par.L_creep_te = [-2.4   8.3  -11.2   5.2]'; % curves for tether life extimation due to creep
 
 %% Onboard turbines
-par.P_r = 100e3;   % [W] Rated power
+par.P_r = 20e3;   % [W] Rated power
 par.P_smooth = 0.1; % [-] max fluctuation of power with respect to rated power
 par.xi_t = 0.2;  % [-] R_t/(b/2) onboard wind turbines size
 par.R_t = par.xi_t* (par.b/2);  % [-] R_t/(b/2) onboard wind turbines size
