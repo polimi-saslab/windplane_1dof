@@ -10,9 +10,9 @@ par.dv_name = {'af', 'CLh' ,'beta_d','gamma_d','u_vw', 'lambda_t', 'theta'};    
 % theta are the Fourier coefficients of the wing pitch angle
 
 par.dv_dim = [1, 1, 1, 1, 2*par.k_hb+1 ,2*par.k_c_t+1,2*par.k_c_theta+1];                                                % dimensions
-opt.x0 = [0.01 1  30 0  6  zeros(1,2*par.k_hb)    3    zeros(1,2*par.k_c_t) 0  zeros(1,2*par.k_c_theta)   ];             % inital values
-opt.lb = [0 0.3   10  -20 1  -10*ones(1,2*par.k_hb)  1  -1*ones(1,2*par.k_c_t)  -30   -10*ones(1,2*par.k_c_theta) ];      % lower bounds
-opt.ub = [0.2 1.5  50  20 10  10*ones(1,2*par.k_hb)  4.5  1*ones(1,2*par.k_c_t)     10    10*ones(1,2*par.k_c_theta)];   % upper bounds
+opt.x0 = [0.01   1  30    0  5  zeros(1,2*par.k_hb)    3    zeros(1,2*par.k_c_t) 0  zeros(1,2*par.k_c_theta)   ];             % inital values
+opt.lb = [0    0.3   10  -10 1  -10*ones(1,2*par.k_hb)  1  -1*ones(1,2*par.k_c_t)  -40   -10*ones(1,2*par.k_c_theta) ];      % lower bounds
+opt.ub = [0.2   1.5  50  10 10  10*ones(1,2*par.k_hb)  4.5  1*ones(1,2*par.k_c_t)     10    10*ones(1,2*par.k_c_theta)];   % upper bounds
 
 par.N_dv = length(opt.x0);
 

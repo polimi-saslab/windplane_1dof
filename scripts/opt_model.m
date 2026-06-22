@@ -96,7 +96,7 @@ t.phi   = - vars.m*vars.atm.g*(sin(vars.beta)*tan(out.Phi)+sin(t.Psi).*cos(vars.
 t.phi_d = t.phi*180/pi; % [deg] roll angle
 
 %% Compute power
-t.P      = 1/2 * vars.atm.rho *vars.A_t * t.CPt .*  (t.u+t.vw1).^3; % [W] Power
+t.P      = 1/2 * vars.atm.rho *vars.A_t * t.CPt .*  (t.u+t.vw1).^3*0.7; % [W] Power
 out.P      = trapz(vars.tau,t.P); % [W] Mean power
 out.CP      = trapz(vars.tau,t.P); % [W] Mean power
 
@@ -152,16 +152,22 @@ P_Pr_c = out.P/(vars.P_r) - 1; % rated power equality constraint
 if strcmp (vars.region, 'I')
     ceq = [wake_eq;CL_eq;H];
     if strcmp(vars.dyn,'dyn')
-        c = [Pfl_c;1-out.h_min/(2*vars.b); 1-t.sigma_te/(50e6); out.sigma_te/(600e6)-1];
+        c = [Pfl_c;1-out.h_min/(2*vars.b); 1-t.sigma_te/(20e6); out.sigma_te/(200e6)-1];
     elseif strcmp(vars.dyn,'steady')
-        c = [1-out.h_min/(2*vars.b); 1-out.sigma_te/(50e6); out.sigma_te/(600e6)-1];
+        c = [1-out.h_min/(2*vars.b); 1-out.sigma_te/(20e6); out.sigma_te/(200e6)-1];
     end
+
+    % if strcmp(vars.dyn,'dyn')
+    %     c = [Pfl_c; 1-t.sigma_te/(20e6); out.sigma_te/(70e6)-1];
+    % elseif strcmp(vars.dyn,'steady')
+    %     c = [1-out.sigma_te/(20e6); out.sigma_te/(70e6)-1];
+    % end
 elseif strcmp (vars.region, 'II')
     ceq = [wake_eq;CL_eq;H;P_Pr_c];
     if strcmp(vars.dyn,'dyn')
-        c = [Pfl_c;1-out.h_min/(2*vars.b); 1-t.sigma_te/(0.05e9)];
+        c = [Pfl_c;1-out.h_min/(2*vars.b); 1-t.sigma_te/(0.02e9)];
     elseif strcmp(vars.dyn,'steady')
-        c = [1-out.h_min/(2*vars.b); 1-out.sigma_te/(0.05e9)];
+        c = [1-out.h_min/(2*vars.b); 1-out.sigma_te/(0.02e9)];
     end
 end
 
