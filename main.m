@@ -132,77 +132,61 @@ grid on
 % plot(t.Psi*180/pi,t.theta)
 
 
-%%
-%% 
-% figure('units','centimeters','outerposition',plt.dim)
-% hold on
-% plot(curve.vw_30.t.tau,curve.vw_30.t.u)
-% plot(curve.vw_60.t.tau,curve.vw_60.t.u)
-% plot(curve.vw_90.t.tau,curve.vw_90.t.u)
-% plot(curve.vw_120.t.tau,curve.vw_120.t.u)
-% plot(curve.vw_200.t.tau,curve.vw_200.t.u)
-% grid on
-% ylabel('$u$ (m/s)')
-% xlabel('$t/{T}$ (-)')
-% % legend('$v_{w}$ = 3 m/s', '$v_{w}$ = 6 m/s', '$v_{w}$ = 9 m/s', '$v_{w}$ = 12 m/s', '$v_{w}$ = 20 m/s'  )
-% box on
+%% Time-domain plots for a few representative wind speeds
+% Pick 5 indices spread across vw_range instead of hardcoded vw_XX field
+% names, so this section works regardless of par.atm.vw_range content.
+idx_sample = round(linspace(1, par.atm.N_vw, 5));
+idx_sample = unique(idx_sample, 'stable');
+vw_sample  = par.atm.vw_range(idx_sample);
+fields_vw  = arrayfun(@(v) strcat('vw_', num2str(v*10)), vw_sample, 'UniformOutput', false);
+legend_vw  = arrayfun(@(v) sprintf('$v_{w}$ = %g m/s', v), vw_sample, 'UniformOutput', false);
 
 %%
 figure('units','centimeters','outerposition',plt.dim)
 hold on
-plot(curve.vw_30.t.tau,curve.vw_30.t.P/1e3)
-%% 
-plot(curve.vw_60.t.tau,curve.vw_60.t.P/1e3)
-plot(curve.vw_90.t.tau,curve.vw_90.t.P/1e3)
-plot(curve.vw_120.t.tau,curve.vw_120.t.P/1e3)
-plot(curve.vw_200.t.tau,curve.vw_200.t.P/1e3)
+for i = 1:numel(fields_vw)
+    plot(curve.(fields_vw{i}).t.tau, curve.(fields_vw{i}).t.P/1e3)
+end
 grid on
 ylabel('$P$ (kW)')
 xlabel('$t/{T}$ (-)')
-%legend('$v_{w}$ = 3 m/s', '$v_{w}$ = 6 m/s', '$v_{w}$ = 9 m/s', '$v_{w}$ = 12 m/s', '$v_{w}$ = 20 m/s'  )
-ylim([-25 , 125])
+legend(legend_vw,'Location','best')
 box on
 
 
 %%
 figure('units','centimeters','outerposition',plt.dim)
 hold on
-plot(curve.vw_30.t.tau,curve.vw_30.t.lambda_t)
-plot(curve.vw_60.t.tau,curve.vw_60.t.lambda_t)
-plot(curve.vw_90.t.tau,curve.vw_90.t.lambda_t)
-plot(curve.vw_120.t.tau,curve.vw_120.t.lambda_t)
-plot(curve.vw_200.t.tau,curve.vw_200.t.lambda_t)
+for i = 1:numel(fields_vw)
+    plot(curve.(fields_vw{i}).t.tau, curve.(fields_vw{i}).t.lambda_t)
+end
 grid on
 ylabel('$\lambda_t$ (-)')
 xlabel('$t/{T}$ (-)')
-legend('$v_{w}$ = 3 m/s', '$v_{w}$ = 6 m/s', '$v_{w}$ = 9 m/s', '$v_{w}$ = 12 m/s', '$v_{w}$ = 20 m/s'  )
+legend(legend_vw,'Location','best')
 box on
 
 
 %%
 figure('units','centimeters','outerposition',plt.dim)
 hold on
-plot(curve.vw_30.t.tau,curve.vw_30.t.CL)
-plot(curve.vw_60.t.tau,curve.vw_60.t.CL)
-plot(curve.vw_90.t.tau,curve.vw_90.t.CL)
-plot(curve.vw_120.t.tau,curve.vw_120.t.CL)
-plot(curve.vw_200.t.tau,curve.vw_200.t.CL)
+for i = 1:numel(fields_vw)
+    plot(curve.(fields_vw{i}).t.tau, curve.(fields_vw{i}).t.CL)
+end
 grid on
 ylabel('$C_L$ (-)')
 xlabel('$t/{T}$ (-)')
+legend(legend_vw,'Location','best')
 box on
-% legend('$v_{w}$ = 3 m/s', '$v_{w}$ = 6 m/s', '$v_{w}$ = 9 m/s', '$v_{w}$ = 12 m/s', '$v_{w}$ = 20 m/s'  )
 
 
 %%
 figure('units','centimeters','outerposition',plt.dim)
 hold on
-plot(curve.vw_30.t.tau,curve.vw_30.t.sigma_te/1e6)
-plot(curve.vw_60.t.tau,curve.vw_60.t.sigma_te/1e6)
-plot(curve.vw_90.t.tau,curve.vw_90.t.sigma_te/1e6)
-plot(curve.vw_120.t.tau,curve.vw_120.t.sigma_te/1e6)
-plot(curve.vw_200.t.tau,curve.vw_200.t.sigma_te/1e6)
+for i = 1:numel(fields_vw)
+    plot(curve.(fields_vw{i}).t.tau, curve.(fields_vw{i}).t.sigma_te/1e6)
+end
 grid on
 ylabel('$\sigma_{te}$ (MPa)')
 xlabel('$t/{T}$ (-)')
-legend('$v_{w}$ = 3 m/s', '$v_{w}$ = 6 m/s', '$v_{w}$ = 9 m/s', '$v_{w}$ = 12 m/s', '$v_{w}$ = 20 m/s'  )
+legend(legend_vw,'Location','best')
